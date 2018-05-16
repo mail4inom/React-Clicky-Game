@@ -19,7 +19,8 @@ class ClickyGame extends Component {
             topScore: 0,
             message: "",
             statesImages: images,
-            location: "you win!"
+          
+            
         }
     }
 
@@ -37,20 +38,20 @@ class ClickyGame extends Component {
         console.log('img: ', img)
         
         if (img) {
-          if (this.state.topScore === 12) {
+          if (this.state.score === 12) {
             images.forEach(image => {
                 image.clicked = false;
             });
                 return this.setState({
                     score: 0,
                     statesImages: shuffleImages(this.state.statesImages),
-                    topScore: (this.state.topScore < this.state.score) ? this.state.score : this.state.topScore,
+                    topScore: 0,
                     statesImages: images,
-                    message: alert("Congratulation You Win!"),
-                    location: window.location.reload()
+                    message: "Congratulations, You won !!!",
+                    
                 })
             }
-            if(!img.clicked) {
+            if(!img.clicked ) {
                 img.clicked = true;
                 console.log("inside if: ", this.state.score)
                 return this.setState({
