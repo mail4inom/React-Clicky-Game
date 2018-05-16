@@ -17,14 +17,19 @@ class ClickyGame extends Component {
         this.state = {
             score: 0,
             topScore: 0,
-            statesImages: images
+            message: "",
+            statesImages: images,
+            location: "you win!"
         }
     }
 
-    handleItemClick = (clicked, id) => {
-        // console.log(clicked)
-        // console.log(id)
-       
+    componentDidMount() {
+        this.setState({
+            message: "Click an image to begin!"
+        })
+     }
+
+    handleItemClick = (clicked, id) => {  
         let img = this.state.statesImages.find( (img) => {
             return id === img.id;
         });
@@ -32,12 +37,26 @@ class ClickyGame extends Component {
         console.log('img: ', img)
         
         if (img) {
+          if (this.state.topScore === 12) {
+            images.forEach(image => {
+                image.clicked = false;
+            });
+                return this.setState({
+                    score: 0,
+                    statesImages: shuffleImages(this.state.statesImages),
+                    topScore: (this.state.topScore < this.state.score) ? this.state.score : this.state.topScore,
+                    statesImages: images,
+                    message: alert("Congratulation You Win!"),
+                    location: window.location.reload()
+                })
+            }
             if(!img.clicked) {
                 img.clicked = true;
                 console.log("inside if: ", this.state.score)
                 return this.setState({
                     statesImages: shuffleImages(this.state.statesImages),
                     score: this.state.score + 1,
+                    message: "You guessed correctly!"
                 });
             }
             else {
@@ -46,26 +65,19 @@ class ClickyGame extends Component {
                 });
                 return this.setState({
                     score: 0,
+                    statesImages: shuffleImages(this.state.statesImages),
                     topScore: (this.state.topScore < this.state.score) ? this.state.score : this.state.topScore,
-                    statesImages: images
+                    statesImages: images,
+                    message: "You guessed incorrectly!"
                 })
             }
-        } else if (this.state.topScore === 12) {
-            return this.setState({
-                score: 0,
-                topScore: 0,
-                statesImages: images
-            })
-        }
+        } 
     }
 
     render() {
-        console.log(this.state.statesImages)
-        console.log(this.state.score)
-        console.log(this.state.topScore)
         return (
             <div>
-                <nav style={{background: '#00aef3', color: 'white'}} className="navbar navbar-default navbar-fixed-top">
+                <nav className="navbar navbar-default navbar-fixed-top">
                     <div className="container-fluid">
                     <br/>
                         <div className="row">
@@ -73,7 +85,7 @@ class ClickyGame extends Component {
                                 <h2>Clicky Game!</h2>
                             </div>
                             <div className="col-sm-4 text-center">
-                                <h2>You Win!</h2>
+                                <h2>{this.state.message}</h2>
                             </div>
                             <div className="col-sm-4">
                                 <div className="row">
@@ -93,16 +105,17 @@ class ClickyGame extends Component {
                     <div className="row">
                         {this.state.statesImages.map(img => {
                             return (
-                                <div className="col-sm-3" key={img.id}>
+                                <div className="col-sm-3 imageDiv" key={img.id}>
+                                <button>
                                     <img 
                                         className="thumbnail" 
                                         onClick={() => this.handleItemClick(img.clicked, img.id)} 
                                         id={img.id} 
-                                        style={{ width: '220px', height: '220px' }} 
                                         alt="img1" src={img.image} 
                                     />
+                                    </button>
                                     <br /><br />
-                                </div>
+                                 </div>
                             )
                         })}
                     </div>

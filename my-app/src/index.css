@@ -3,3 +3,32 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.jumbotron {
+height: 400px;
+background: #F19F4D; 
+color: white;
+}
+
+footer {
+background: #4484ce;
+height: 70px;
+color: white;
+}
+
+.imageDiv button:hover {
+  transform: scale(1.1);
+  }
+  
+  .imageDiv button:active {
+   transform: translateY(4px);
+   }
+   img {
+  width: 220px;
+  height: 220px;
+   }
+
+   .navbar {
+    background: #4484ce; 
+    color: white;
+   }
